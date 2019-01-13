@@ -9,7 +9,8 @@ class DeadZonedTest(unittest.TestCase):
         self.assertEqual(is_in_deadzone(.2, (.2,.2)), False)
     def test_deadzoned_3(self):
         self.assertEqual(is_in_deadzone(1, (0.5,0.03)), True)
-
+    def test_deadzoned_3(self):
+        self.assertEqual(is_in_deadzone(1, (0.5,0.03)), True)
 
 if __name__ == '__main__':
     unittest.main()
