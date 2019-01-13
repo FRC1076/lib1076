@@ -12,7 +12,7 @@ joystick has continuous increase in the readings from
 the border of the deadzone to the maximum value.
 
 For the first part, we need a function that tells us if a
-point is inside the deadzone or not.     That will guide
+point is inside the deadzone or not. That will guide
 what we return.
 
 If you pass the first unit test, write a bunch more unit
