@@ -17,16 +17,20 @@ class DeadZonedTest(unittest.TestCase):
     # is on-the-circle considered in the zone?
     def test_is_in_deadzone_5(self):
         self.assertEqual(is_in_deadzone(.3, (0.3,0.0)), True)
-
+    def test_is_in_deadzonel(self):
+        self.assertEqual(is_in_deadzone(.3, (0.0,0.1)), True)
+    
     # test the actual deadzone values.
     # anywhere in the zone should return (0,0)
     def test_deadzone_1(self):
         self.assertEqual(deadzone(1, (0.5,0.03)), (0,0))
+    def test_deadzone1(self):
+        self.assertEqual(deadzone(1, (0,1)), (0,0))
 
     # On the edge of the deadzone is (0,0)
     def test_deadzone_2(self):
         rad = .5
-        side = math.sqrt(rad)
+        side = rad/math.sqrt(2)
         self.assertEqual(deadzone(rad, (side,side)), (0,0))
 
     # Somewhere outside the zone, does it get scaled properly?
@@ -38,7 +42,7 @@ class DeadZonedTest(unittest.TestCase):
         # it has a special "assert" variant to permit small errors.
         # Otherwise we can subtract and look for something close to 0
         rad = .7
-        side = math.sqrt(rad)
+        side = rad/math.sqrt(2)
         self.assertEqual(deadzone(zone, (side,-side)), (0.5,-0.5))
 
     def test_deadzone_4(self):
@@ -48,7 +52,7 @@ class DeadZonedTest(unittest.TestCase):
         # 
         zone = .2
         rad = .7
-        side = math.sqrt(rad)
+        side = rad/math.sqrt(2)
         self.assertEqual(deadzone(zone, (-side, -side)), (-.5, -.5))
 
     def test_deadzone_5(self):
