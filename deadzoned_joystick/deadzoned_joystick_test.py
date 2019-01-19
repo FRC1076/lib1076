@@ -36,17 +36,21 @@ class DeadZonedTest(unittest.TestCase):
     # Somewhere outside the zone, does it get scaled properly?
     def test_deadzone_3(self):
         zone = .4
+        
+        
         # .7 is halfway between .4 and 1, so it should scale to 50%, right?
-        # Note: this may fail if the math gives us 0.49999, so we might need
+        # Note: this may fail if the smath gives us 0.49999, so we might need
         # to permit some slop in the comparison.  Check unitest to see if
         # it has a special "assert" variant to permit small errors.
         # Otherwise we can subtract and look for something close to 0
         rad = .7
         side = rad/math.sqrt(2)
-        self.assertEqual(deadzone(zone, (side,-side)), (0.5,-0.5))
-
+        (x,y) = deadzone(zone, (side, -side)) 
+        self.assertAlmostEqual(x, 0.5, places = 1)
+        self.assertAlmostEqual(y, -0.5, places= 1)
+        
     def test_deadzone_4(self):
-        #
+        
         # try a point in the negative space (to make sure signs are working)
         # This one should be halfway between .2 and 1, so should scale to .5
         # 
