@@ -57,7 +57,9 @@ class DeadZonedTest(unittest.TestCase):
         zone = .2
         rad = .7
         side = rad/math.sqrt(2)
-        self.assertEqual(deadzone(zone, (-side, -side)), (-.5, -.5))
+        (x,y) = deadzone(zone, (-side, -side))
+        self.assertAlmostEqual(-x, -0.5, places= 1)
+        self.assertAlmostEqual(-y, -0.5, places= 1)
 
     def test_deadzone_5(self):
         #
@@ -65,8 +67,9 @@ class DeadZonedTest(unittest.TestCase):
         # This is one is a quarter of the way between the deadzone and 1, so should resolve
         # to 0.25
         # 
-        rad = .8
-        self.assertEqual(deadzone(rad, (0, -rad)), (0, 0.25))
+        zone = .6
+        rad = .7
+        self.assertEqual(deadzone(zone, (0, -rad)), (0, -0.25))
 
 
 if __name__ == '__main__':
