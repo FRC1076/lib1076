@@ -22,7 +22,7 @@ class UDPChannel:
     #      sender = UDPChannel()
     # On the other end (in another window/program)
     #      from lib1076.udp_channel import UDPChannel as UDPChannel
-    #      receiver = UDPChannel(local_port=UDPChannel.default_remote_port, UDPChannel.remote_port=default_local_port)
+    #      receiver = UDPChannel(local_port=UDPChannel.default_remote_port, remote_port=UDPChannel.default_local_port)
     def __init__(self,
                  local_ip="127.0.0.1",
                  local_port=default_local_port,
