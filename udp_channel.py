@@ -15,6 +15,8 @@ class UDPChannel:
     """
     default_local_port = 5888
     default_remote_port = 5880
+    default_local_address = '127.0.0.1'
+    default_remote_address =  '127.0.0.1'
 
     # Useful defaults permit minimal arguments for simple test.
     # On one end:
@@ -24,9 +26,9 @@ class UDPChannel:
     #      from lib1076.udp_channel import UDPChannel as UDPChannel
     #      receiver = UDPChannel(local_port=UDPChannel.default_remote_port, remote_port=UDPChannel.default_local_port)
     def __init__(self,
-                 local_ip="127.0.0.1",
+                 local_ip=default_local_address,
                  local_port=default_local_port,
-                 remote_ip="127.0.0.1",
+                 remote_ip=default_remote_address,
                  remote_port=default_remote_port,
                  timeout_in_seconds=0.001,
                  receive_buffer_size=8192):
@@ -78,13 +80,18 @@ class UDPChannel:
             self.receive_socket.settimeout(self.timeout_in_seconds)
             try:
                 (message, portaddr) = self.receive_socket.recvfrom(self.receive_buffer_size)
-            except socket.timeout as e:
+            except socket.timeout:
                 # if we timed out, we got nothing
                 (message, portaddr) = (None, None)
             except Exception as unknown:
                 print('Problem receiving UDP packet"',unknown)
+                (message, portaddr) = (None, None)
             else:
                 # if it worked, we must decode
                 message = message.decode()
             return (message, portaddr)
+
+    def close(self):
+        self.receive_socket.close()
+        self.send_socket.close()
 
