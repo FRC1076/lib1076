@@ -30,27 +30,29 @@ class UDPChannel:
                  local_port=default_local_port,
                  remote_ip=default_remote_address,
                  remote_port=default_remote_port,
-                 timeout_in_seconds=0.001,
+                 timeout_in_seconds=.0001,
                  receive_buffer_size=8192):
-        """Create the sending and receiving sockets for a communcation channel"""
-        try:
-            self.local_ip = local_ip
-            self.local_port = local_port
-            self.remote_ip = remote_ip
-            self.remote_port = remote_port
+        """
+        Create the sending and receiving sockets for a communcation channel
+        If the address for the local end of the channel is not valid
+        this will throw an exception.    The user should retry creating
+        the channel later.
+        """
+        self.local_ip = local_ip
+        self.local_port = local_port
+        self.remote_ip = remote_ip
+        self.remote_port = remote_port
 
-            # create the receive socket
-            self.receive_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-            self.receive_socket.bind((local_ip, local_port))
+        # cache other configurable parameters
+        self.timeout_in_seconds = timeout_in_seconds
+        self.receive_buffer_size = receive_buffer_size
 
-            # and the sending socket
-            self.send_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        # create the receive socket
+        self.receive_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        self.receive_socket.bind((local_ip, local_port))
 
-            # cache other configurable parameters
-            self.timeout_in_seconds = timeout_in_seconds
-            self.receive_buffer_size = receive_buffer_size
-        except:
-            print("Something went wrong")
+        # and the sending socket
+        self.send_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
     def send_to(self, message):
             """
